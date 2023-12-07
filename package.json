@@ -4,7 +4,8 @@
   "description": "",
   "main": "recursion.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watchAll *.test.js"
   },
   "keywords": [],
   "author": "",

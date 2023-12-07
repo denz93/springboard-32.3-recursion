@@ -50,9 +50,40 @@ function makeBoard(boardString) {
   return board;
 }
 
+/**
+ * 
+ * @param {string[]} board 
+ * @param {string} word 
+ */
 function find(board, word) {
   /** Can word be found in board? */
-  // TODO
+  if (word === '') return false;
+  const ROWS = board.length;
+  const COLS = board[0].length;
+
+  function findWord(r, c, word, visited = new Set()) {
+    const isOutOfBoard = r < 0 || r >= ROWS || c < 0 || c >= COLS;
+    if (isOutOfBoard) return false;
+    if (word === '') return true;
+    const letter = board[r][c];
+    const key = `${r},${c}`;
+
+    if (visited.has(key)) return false;
+    if (letter !== word[0]) return false;
+    visited.add(key);
+    return findWord(r + 1, c, word.slice(1), visited) ||
+      findWord(r - 1, c, word.slice(1), visited) ||
+      findWord(r, c + 1, word.slice(1), visited) ||
+      findWord(r, c - 1, word.slice(1), visited);
+  }
+
+  for (let r = 0; r < board.length; r++) {
+    for (let c = 0; c < board[r].length; c++) {
+      const found = findWord(r, c, word)
+      if (found) return true;
+    }
+  }
+  return false
 }
 
 // EXAMPLE TEST
